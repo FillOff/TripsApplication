@@ -1,0 +1,9 @@
+# Ignore Visual Studio files
+.vs
+
+# Ignore VS Code files
+.vscode
+
+# Ignore .net build files
+bin
+obj

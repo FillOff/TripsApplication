@@ -7,9 +7,9 @@ namespace Trips.Persistence.Repositories;
 
 public class UsersRepository : IUsersRepository
 {
-    private readonly UsersDbContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public UsersRepository(UsersDbContext context)
+    public UsersRepository(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -19,6 +19,20 @@ public class UsersRepository : IUsersRepository
         return await _context.Users
             .AsNoTracking()
             .ToListAsync();
+    }
+
+    public async Task<User?> GetById(Guid id)
+    {
+        return await _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == id);
+    }
+
+    public async Task<User?> GetByEmail(string email)
+    {
+        return await _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task<Guid> Add(

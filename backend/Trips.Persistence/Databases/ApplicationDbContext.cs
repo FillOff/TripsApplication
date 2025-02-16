@@ -20,6 +20,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Route> Routes { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Image> Images { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,6 +30,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new RouteConfiguration());
         modelBuilder.ApplyConfiguration(new CommentConfiguration());
         modelBuilder.ApplyConfiguration(new ImageConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

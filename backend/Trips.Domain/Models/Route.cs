@@ -1,4 +1,6 @@
-﻿namespace Trips.Domain.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Trips.Domain.Models;
 
 public class Route
 {
@@ -8,6 +10,6 @@ public class Route
     public double Length { get; set; }
     public TimeOnly Duration { get; set; }
 
-    public Guid TripId { get; set; }
+    [JsonIgnore]
     public Trip? Trip { get; set; }
 }

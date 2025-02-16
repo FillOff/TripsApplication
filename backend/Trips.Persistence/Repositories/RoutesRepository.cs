@@ -28,21 +28,12 @@ public class RoutesRepository : IRoutesRepository
         return route;
     }
 
-    public async Task<List<Route>> GetWithTrip()
-    {
-        return await _context.Routes
-            .AsNoTracking()
-            .Include(r => r.Trip)
-            .ToListAsync();
-    }
-
     public async Task<Guid> Add(
         Guid id,
         string startPlace,
         string endPlace,
         double length,
-        TimeOnly duration,
-        Guid tripId)
+        TimeOnly duration)
     {
         var route = new Route
         {
@@ -50,9 +41,7 @@ public class RoutesRepository : IRoutesRepository
             StartPlace = startPlace,
             EndPlace = endPlace,
             Length = length,
-            Duration = duration,
-            TripId = tripId
-
+            Duration = duration
         };
 
         await _context.Routes
@@ -77,8 +66,7 @@ public class RoutesRepository : IRoutesRepository
         string startPlace,
         string endPlace,
         double length,
-        TimeOnly duration,
-        Guid tripId)
+        TimeOnly duration)
     {
         await _context.Routes
             .Where(r => r.Id == id)
@@ -86,8 +74,7 @@ public class RoutesRepository : IRoutesRepository
                 .SetProperty(r => r.StartPlace, startPlace)
                 .SetProperty(r => r.EndPlace, endPlace)
                 .SetProperty(r => r.Length, length)
-                .SetProperty(r => r.Duration, duration)
-                .SetProperty(r => r.TripId, tripId));
+                .SetProperty(r => r.Duration, duration));
 
         return id;
     }

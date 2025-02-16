@@ -19,6 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Trips.Application\Trips.Application.csproj" />
+    <ProjectReference Include="..\Trips.Domain\Trips.Domain.csproj" />
+    <ProjectReference Include="..\Trips.Infrastructure\Trips.Infrastructure.csproj" />
     <ProjectReference Include="..\Trips.Persistence\Trips.Persistence.csproj" />
   </ItemGroup>
 

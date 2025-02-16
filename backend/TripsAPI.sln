@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trips.Persistence", "Trips.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trips.Application", "Trips.Application\Trips.Application.csproj", "{9FFA6BC9-23EF-4058-B1D8-01F45AF2C39E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trips.Infrastructure", "Trips.Infrastructure\Trips.Infrastructure.csproj", "{A91A534F-010F-42E8-8556-08C8A4F39E4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9FFA6BC9-23EF-4058-B1D8-01F45AF2C39E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FFA6BC9-23EF-4058-B1D8-01F45AF2C39E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FFA6BC9-23EF-4058-B1D8-01F45AF2C39E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A91A534F-010F-42E8-8556-08C8A4F39E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A91A534F-010F-42E8-8556-08C8A4F39E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A91A534F-010F-42E8-8556-08C8A4F39E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A91A534F-010F-42E8-8556-08C8A4F39E4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

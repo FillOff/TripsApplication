@@ -12,7 +12,6 @@ public class RouteConfiguration : IEntityTypeConfiguration<Route>
 
         builder
             .HasOne(r => r.Trip)
-            .WithOne(t => t.Route)
-            .HasForeignKey<Route>(r => r.TripId);
+            .WithOne(t => t.Route);
     }
 }

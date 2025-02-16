@@ -54,7 +54,7 @@ public class TripsRepository : ITripsRepository
         string description,
         DateTime startDateTime,
         DateTime endDateTime,
-        DateTime relativeDateTime,
+        TimeSpan relativeDateTime,
         TripStatus tripStatus,
         Guid routeId,
         Guid userId)
@@ -95,10 +95,8 @@ public class TripsRepository : ITripsRepository
         string description,
         DateTime startDateTime,
         DateTime endDateTime,
-        DateTime relativeDateTime,
-        TripStatus tripStatus,
-        Guid routeId,
-        Guid userId)
+        TimeSpan relativeDateTime,
+        TripStatus tripStatus)
     {
         await _context.Trips
             .Where(t => t.Id == id)
@@ -108,9 +106,7 @@ public class TripsRepository : ITripsRepository
                 .SetProperty(t => t.StartDateTime, startDateTime)
                 .SetProperty(t => t.EndDateTime, endDateTime)
                 .SetProperty(t => t.RelativeDateTime, relativeDateTime)
-                .SetProperty(t => t.TripStatus, tripStatus)
-                .SetProperty(t => t.RouteId, routeId)
-                .SetProperty(t => t.UserId, userId));
+                .SetProperty(t => t.TripStatus, tripStatus));
 
         return id;
     }

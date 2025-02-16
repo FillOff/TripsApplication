@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  backend:
+    container_name: trips-backend
+    build:
+      context: ./backend
+      dockerfile: Trips.API/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=appdb;User Id=sa;Password=GEAFADsuaifl1ur3453345421;TrustServerCertificate=True;
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - db
+    networks:
+      - trips_network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: trips-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=GEAFADsuaifl1ur3453345421
+    ports:
+      - "1433:1433"
+    networks:
+      - trips_network
+    volumes:
+      - db_data:/var/opt/mssql
+
+networks:
+  trips_network:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local

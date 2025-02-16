@@ -8,7 +8,6 @@ public class User
     public string PasswordHash {  get; set; } = string.Empty;
 
     public List<Trip> Trips { get; set; } = [];
-    public List<Trip> HistoryTrips { get; set; } = [];
 
     public List<Comment> Comments { get; set; } = [];
 }

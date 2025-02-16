@@ -1,5 +1,5 @@
+using Trips.Persistence;
 using Trips.Persistence.Databases;
-using Trips.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +9,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddDbContext<UsersDbContext>();
+builder.Services.AddRepositories();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

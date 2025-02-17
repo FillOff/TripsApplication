@@ -39,12 +39,14 @@ public class ImagesRepository : IImagesRepository
     public async Task<Guid> Add(
         Guid id,
         string url,
+        string filePath,
         Guid tripId)
     {
         var image = new Image
         {
             Id = id,
             Url = url,
+            FilePath = filePath,
             TripId = tripId
 
         };
@@ -69,12 +71,14 @@ public class ImagesRepository : IImagesRepository
     public async Task<Guid> Update(
         Guid id,
         string url,
+        string filePath,
         Guid tripId)
     {
         await _context.Images
             .Where(i => i.Id == id)
             .ExecuteUpdateAsync(s => s
                 .SetProperty(i => i.Url, url)
+                .SetProperty(i => i.FilePath, filePath)
                 .SetProperty(i => i.TripId, tripId));
 
         return id;

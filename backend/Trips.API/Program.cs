@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using Trips.API.Extensions;
 using Trips.API.Middlewares;
 using Trips.API.Profiles;
@@ -8,11 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(
     typeof(TripProfile), 
     typeof(RouteProfile), 
-    typeof(CommentProfile));
+    typeof(CommentProfile),
+    typeof(ImageProfile));
 builder.Services.AddOptions<JwtOptions>()
     .Bind(builder.Configuration.GetSection(nameof(JwtOptions)));
 
@@ -34,6 +37,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "images")),
+    RequestPath = "/images"
+});
 
 app.UseAuthorization();
 

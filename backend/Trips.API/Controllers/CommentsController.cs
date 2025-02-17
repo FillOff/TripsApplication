@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Trips.API.Contracts.Comments;
 using Trips.API.Contracts.Trips;
 using Trips.Interfaces.Services;
@@ -10,21 +11,21 @@ namespace Trips.API.Controllers;
 public class CommentsController : ControllerBase
 {
     private readonly ICommentsService _commentsService;
-    public CommentsController(ICommentsService commentsService)
+    private readonly IMapper _mapper;
+
+    public CommentsController(
+        ICommentsService commentsService,
+        IMapper mapper)
     {
         _commentsService = commentsService;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<GetTripResponse>>> GetComments()
+    public async Task<ActionResult<List<GetCommentResponse>>> GetComments()
     {
-        var response = (await _commentsService.GetCommentsAsync())
-            .Select(c => new GetCommentResponse(
-                c.Id,
-                c.Content,
-                c.UserId,
-                c.TripId))
-            .ToList();
+        var comments = await _commentsService.GetCommentsAsync();
+        var response = _mapper.Map<List<GetCommentResponse>>(comments);
 
         return Ok(response);
     }

@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Trips.Application.Services;
+﻿using Trips.Application.Services;
 using Trips.Interfaces.Services;
 
-namespace Trips.Application;
+namespace Trips.API.Extensions;
 
-public static class DependencyInjection
+public static class ApplicationExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {

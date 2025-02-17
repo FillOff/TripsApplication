@@ -1,11 +1,7 @@
+using Trips.API.Extensions;
 using Trips.API.Middlewares;
 using Trips.API.Profiles;
-using Trips.Application;
 using Trips.Infrastructure;
-using Trips.Infrastructure.Services;
-using Trips.Interfaces.Auth;
-using Trips.Persistence;
-using Trips.Persistence.Databases;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +18,10 @@ builder.Services.AddOptions<JwtOptions>()
 
 builder.Services.AddTransient<ExceptionMiddleware>();
 
-builder.Services.AddDbContext<ApplicationDbContext>();
-builder.Services.AddServices();
+builder.Services.AddDbContexts();
 builder.Services.AddRepositories();
-
-builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddServices();
+builder.Services.AddExternalServices();
 
 var app = builder.Build();
 

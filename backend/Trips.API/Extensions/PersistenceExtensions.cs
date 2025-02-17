@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Trips.Interfaces.Repositories;
+﻿using Trips.Interfaces.Repositories;
+using Trips.Persistence.Databases;
 using Trips.Persistence.Repositories;
 
-namespace Trips.Persistence;
+namespace Trips.API.Extensions;
 
-public static class DependencyInjection
+public static class PersistenceExtensions
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
@@ -13,6 +13,13 @@ public static class DependencyInjection
         services.AddScoped<IUsersRepository, UsersRepository>();
         services.AddScoped<ICommentsRepository, CommentsRepository>();
         services.AddScoped<IImagesRepository, ImagesRepository>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddDbContexts(this IServiceCollection services)
+    {
+        services.AddDbContext<ApplicationDbContext>();
 
         return services;
     }

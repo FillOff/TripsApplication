@@ -7,6 +7,6 @@ public class RouteProfile : Profile
 {
     public RouteProfile()
     {
-        CreateMap<Domain.Models.Route, RoutesResponse>();
+        CreateMap<Domain.Models.Route, GetRouteResponse>();
     }
 }

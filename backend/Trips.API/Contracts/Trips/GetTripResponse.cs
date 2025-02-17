@@ -5,7 +5,7 @@ using Trips.Domain.Models;
 
 namespace Trips.API.Contracts.Trips;
 
-public record class TripsResponse(
+public record class GetTripResponse(
     Guid Id,
     string Name,
     string Description,
@@ -14,7 +14,7 @@ public record class TripsResponse(
     TimeSpan RelativeDateTime,
     TripStatus TripStatus,
     Guid RouteId,
-    RoutesResponse? Route,
+    GetRouteResponse? Route,
     Guid UserId,
-    List<CommentsResponse> Comments,
+    List<GetCommentResponse> Comments,
     List<Image> Images);

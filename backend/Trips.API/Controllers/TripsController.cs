@@ -23,16 +23,16 @@ public class TripsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<TripsResponse>>> GetTripsWithRouteWithImagesWithComments()
+    public async Task<ActionResult<List<GetTripResponse>>> GetTripsWithRouteWithImagesWithComments()
     {
         var trips = await _tripsService.GetTripsWithRouteWithImagesWithCommentsAsync();
-        var response = _mapper.Map<List<TripsResponse>>(trips);
+        var response = _mapper.Map<List<GetTripResponse>>(trips);
         
         return Ok(response);
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateTrip([FromBody] CreateTripsRequest trip)
+    public async Task<ActionResult<Guid>> CreateTrip([FromBody] CreateTripRequest trip)
     {
         Guid id = await _tripsService.CreateTripAsync(
             trip.Name,
@@ -46,7 +46,7 @@ public class TripsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult<Guid>> UpdateTrip([FromBody] UpdateTripsRequest trip)
+    public async Task<ActionResult<Guid>> UpdateTrip([FromBody] UpdateTripRequest trip)
     {
         Guid id = await _tripsService.UpdateTripAsync(
             trip.Id,

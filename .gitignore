@@ -7,3 +7,5 @@
 # Ignore .net build files
 bin
 obj
+
+start.bat

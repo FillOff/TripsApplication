@@ -1,7 +1,6 @@
 ﻿namespace Trips.API.Contracts.Comments;
 
-public record class UpdateCommentsRequest(
-    Guid Id,
+public record class CreateCommentRequest(
     string Content,
     Guid UserId,
     Guid TripId);

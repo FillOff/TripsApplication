@@ -16,10 +16,10 @@ public class CommentsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<TripsResponse>>> GetComments()
+    public async Task<ActionResult<List<GetTripResponse>>> GetComments()
     {
         var response = (await _commentsService.GetCommentsAsync())
-            .Select(c => new CommentsResponse(
+            .Select(c => new GetCommentResponse(
                 c.Id,
                 c.Content,
                 c.UserId,
@@ -30,7 +30,7 @@ public class CommentsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateComment([FromBody] CreateCommentsRequest comment)
+    public async Task<ActionResult<Guid>> CreateComment([FromBody] CreateCommentRequest comment)
     {
         Guid id = await _commentsService.CreateCommentAsync(
             comment.Content,
@@ -41,7 +41,7 @@ public class CommentsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult<Guid>> UpdateComment([FromBody] UpdateCommentsRequest comment)
+    public async Task<ActionResult<Guid>> UpdateComment([FromBody] UpdateCommentRequest comment)
     {
         Guid id = await _commentsService.UpdateCommentAsync(
             comment.Id,

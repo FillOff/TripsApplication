@@ -1,3 +1,4 @@
+using Trips.API.Middlewares;
 using Trips.API.Profiles;
 using Trips.Application;
 using Trips.Infrastructure;
@@ -19,6 +20,8 @@ builder.Services.AddAutoMapper(
 builder.Services.AddOptions<JwtOptions>()
     .Bind(builder.Configuration.GetSection(nameof(JwtOptions)));
 
+builder.Services.AddTransient<ExceptionMiddleware>();
+
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddServices();
 builder.Services.AddRepositories();
@@ -27,6 +30,8 @@ builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

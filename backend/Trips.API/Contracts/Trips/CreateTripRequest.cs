@@ -1,6 +1,6 @@
 ﻿namespace Trips.API.Contracts.Trips;
 
-public record class CreateTripsRequest(
+public record class CreateTripRequest(
     string Name,
     string Description,
     DateTime StartDateTime,

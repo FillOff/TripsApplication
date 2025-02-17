@@ -8,6 +8,6 @@ public class CommentProfile : Profile
 {
     public CommentProfile()
     {
-        CreateMap<Comment, CommentsResponse>();
+        CreateMap<Comment, GetCommentResponse>();
     }
 }

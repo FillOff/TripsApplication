@@ -1,6 +1,6 @@
 ﻿namespace Trips.API.Contracts.Comments;
 
-public record class CommentsResponse(
+public record class GetCommentResponse(
     Guid Id,
     string Content,
     Guid UserId,

@@ -8,6 +8,6 @@ public class TripProfile : Profile
 {
     public TripProfile()
     {
-        CreateMap<Trip, TripsResponse>();
+        CreateMap<Trip, GetTripResponse>();
     }
 }

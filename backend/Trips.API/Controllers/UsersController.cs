@@ -17,7 +17,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("/register")]
-    public async Task<IActionResult> Register([FromBody] RegisterUsersRequest user)
+    public async Task<IActionResult> Register([FromBody] RegisterUserRequest user)
     {
         await _usersService.Register(user.Name, user.Email, user.Password);
 
@@ -25,7 +25,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("/login")]
-    public async Task<IActionResult> Login([FromBody] LoginUsersRequest user)
+    public async Task<IActionResult> Login([FromBody] LoginUserRequest user)
     {
         var token = await _usersService.Login(user.Email, user.Password);
 

@@ -15,10 +15,10 @@ public class RoutesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<RoutesResponse>>> GetRoutes()
+    public async Task<ActionResult<List<GetRouteResponse>>> GetRoutes()
     {
         var response = (await _routesService.GetRoutesAsync())
-            .Select(r => new RoutesResponse(
+            .Select(r => new GetRouteResponse(
                 r.Id,
                 r.StartPlace,
                 r.EndPlace,
@@ -30,7 +30,7 @@ public class RoutesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateRoute([FromBody] CreateRoutesRequest route)
+    public async Task<ActionResult<Guid>> CreateRoute([FromBody] CreateRouteRequest route)
     {
         Guid id = await _routesService.CreateRouteAsync(
             route.StartPlace,
@@ -42,7 +42,7 @@ public class RoutesController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult<Guid>> UpdateRoute([FromBody] UpdateRoutesRequest route)
+    public async Task<ActionResult<Guid>> UpdateRoute([FromBody] UpdateRouteRequest route)
     {
         Guid id = await _routesService.UpdateRouteAsync(
             route.Id,

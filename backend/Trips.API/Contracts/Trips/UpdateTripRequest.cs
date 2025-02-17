@@ -2,7 +2,7 @@
 
 namespace Trips.API.Contracts.Trips;
 
-public record class UpdateTripsRequest(
+public record class UpdateTripRequest(
     Guid Id,
     string Name,
     string Description,

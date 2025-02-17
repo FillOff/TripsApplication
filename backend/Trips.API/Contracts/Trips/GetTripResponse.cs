@@ -1,4 +1,5 @@
 ﻿using Trips.API.Contracts.Comments;
+using Trips.API.Contracts.Images;
 using Trips.API.Contracts.Routes;
 using Trips.Domain.Enums;
 using Trips.Domain.Models;
@@ -17,4 +18,4 @@ public record class GetTripResponse(
     GetRouteResponse? Route,
     Guid UserId,
     List<GetCommentResponse> Comments,
-    List<Image> Images);
+    List<GetImageResponse> Images);

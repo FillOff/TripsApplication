@@ -16,9 +16,8 @@ builder.Services.AddAutoMapper(
     typeof(RouteProfile), 
     typeof(CommentProfile),
     typeof(ImageProfile));
-builder.Services.AddOptions<JwtOptions>()
-    .Bind(builder.Configuration.GetSection(nameof(JwtOptions)));
 
+builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.AddTransient<ExceptionMiddleware>();
 
 builder.Services.AddDbContexts();
@@ -45,7 +44,15 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/images"
 });
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always
+});
 
 app.MapControllers();
 

@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using Trips.API.Contracts.Trips;
 using Trips.Domain.Models;
 using Trips.Interfaces.Services;
 
 namespace Trips.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TripsController : ControllerBase

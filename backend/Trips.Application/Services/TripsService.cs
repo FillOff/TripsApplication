@@ -9,14 +9,11 @@ namespace Trips.Application.Services;
 public class TripsService : ITripsService
 {
     private readonly ITripsRepository _tripsRepository;
-    private readonly IUsersRepository _usersRepository;
 
     public TripsService(
-        ITripsRepository tripsRepository,
-        IUsersRepository usersRepository)
+        ITripsRepository tripsRepository)
     {
         _tripsRepository = tripsRepository;
-        _usersRepository = usersRepository;
     }
 
     public async Task<List<Trip>> GetTripsWithRouteWithImagesWithCommentsAsync()
@@ -34,9 +31,6 @@ public class TripsService : ITripsService
     {
         TimeSpan relativeDateTime = DateTime.UtcNow - startDateTime;
         TripStatus tripStatus = new TripStatus();
-
-        var user = await _usersRepository.GetById(userId)
-            ?? throw new Exception("User not found");
 
         if (relativeDateTime > TimeSpan.Zero)
             tripStatus = TripStatus.Scheduled;

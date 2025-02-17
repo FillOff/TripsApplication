@@ -11,9 +11,14 @@ namespace Trips.API.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUsersService _usersService;
-    public UsersController(IUsersService usersService)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public UsersController(
+        IUsersService usersService,
+        IHttpContextAccessor httpContextAccessor)
     {
         _usersService = usersService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost("/register")]
@@ -29,7 +34,10 @@ public class UsersController : ControllerBase
     {
         var token = await _usersService.Login(user.Email, user.Password);
 
-        return Ok(token);
+        var context = _httpContextAccessor.HttpContext;
+        context?.Response.Cookies.Append("jwt-token", token);
+
+        return Ok();
     }
 
     [HttpGet]

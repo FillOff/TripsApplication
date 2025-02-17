@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,9 +11,10 @@ namespace Trips.Infrastructure.Services;
 public class JwtProvider : IJwtProvider
 {
     private readonly JwtOptions _options;
-    public JwtProvider(IOptions<JwtOptions> options)
+    public JwtProvider(IConfiguration configuration)
     {
-        _options = options.Value;
+        _options = new JwtOptions();
+        configuration.GetSection(nameof(JwtOptions)).Bind(_options);
     }
 
     public string GenerateToken(User user)

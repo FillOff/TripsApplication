@@ -1,4 +1,6 @@
-﻿using Trips.Domain.Enums;
+﻿using Trips.API.Contracts.Comments;
+using Trips.API.Contracts.Routes;
+using Trips.Domain.Enums;
 using Trips.Domain.Models;
 
 namespace Trips.API.Contracts.Trips;
@@ -12,7 +14,7 @@ public record class TripsResponse(
     TimeSpan RelativeDateTime,
     TripStatus TripStatus,
     Guid RouteId,
-    Domain.Models.Route? Route,
+    RoutesResponse? Route,
     Guid UserId,
-    List<Comment> Comments,
+    List<CommentsResponse> Comments,
     List<Image> Images);

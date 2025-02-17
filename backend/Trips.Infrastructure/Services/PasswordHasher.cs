@@ -1,6 +1,6 @@
 ﻿using Trips.Interfaces.Auth;
 
-namespace Trips.Infrastructure;
+namespace Trips.Infrastructure.Services;
 
 public class PasswordHasher : IPasswordHasher
 {

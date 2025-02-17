@@ -20,6 +20,8 @@ public class Trip
     public Guid UserId { get; set; }
     public User? User { get; set; }
 
+    [JsonIgnore]
     public List<Comment> Comments { get; set; } = [];
+    [JsonIgnore]
     public List<Image> Images { get; set; } = [];
 }

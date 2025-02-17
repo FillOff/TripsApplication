@@ -6,7 +6,7 @@ using System.Text;
 using Trips.Domain.Models;
 using Trips.Interfaces.Auth;
 
-namespace Trips.Infrastructure;
+namespace Trips.Infrastructure.Services;
 
 public class JwtProvider : IJwtProvider
 {

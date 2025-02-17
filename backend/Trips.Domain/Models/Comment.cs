@@ -1,4 +1,6 @@
-﻿namespace Trips.Domain.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Trips.Domain.Models;
 
 public class Comment
 {

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using Trips.API.Contracts.Trips;
 using Trips.Domain.Models;
 using Trips.Interfaces.Services;
@@ -10,29 +12,21 @@ namespace Trips.API.Controllers;
 public class TripsController : ControllerBase
 {
     private readonly ITripsService _tripsService;
-    public TripsController(ITripsService tripsService)
+    private readonly IMapper _mapper;
+
+    public TripsController(
+        ITripsService tripsService,
+        IMapper mapper)
     {
         _tripsService = tripsService;
+        _mapper = mapper;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<TripsResponse>>> GetTripsWithRouteWithImagesWithComments()
     {
-        var response = (await _tripsService.GetTripsWithRouteWithImagesWithCommentsAsync())
-            .Select(t => new TripsResponse(
-                t.Id,
-                t.Name,
-                t.Description,
-                t.StartDateTime,
-                t.EndDateTime,
-                t.RelativeDateTime,
-                t.TripStatus,
-                t.RouteId,
-                t.Route,
-                t.UserId,
-                t.Comments,
-                t.Images))
-            .ToList();
+        var trips = await _tripsService.GetTripsWithRouteWithImagesWithCommentsAsync();
+        var response = _mapper.Map<List<TripsResponse>>(trips);
         
         return Ok(response);
     }

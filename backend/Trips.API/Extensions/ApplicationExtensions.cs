@@ -9,7 +9,7 @@ public static class ApplicationExtensions
     {
         services.AddScoped<ITripsService, TripsService>();
         services.AddScoped<IRoutesService, RoutesService>();
-        services.AddScoped<IUsersService, UsersService>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ICommentsService, CommentsService>();
         services.AddScoped<IImagesService, ImagesService>();
 

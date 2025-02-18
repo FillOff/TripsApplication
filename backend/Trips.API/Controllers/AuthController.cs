@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Trips.API.Contracts.Routes;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Trips.API.Contracts.Users;
 using Trips.Domain.Models;
 using Trips.Interfaces.Services;
@@ -8,31 +8,31 @@ namespace Trips.API.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
-public class UsersController : ControllerBase
+public class AuthController : ControllerBase
 {
-    private readonly IUsersService _usersService;
+    private readonly IAuthService _authService;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public UsersController(
-        IUsersService usersService,
+    public AuthController(
+        IAuthService usersService,
         IHttpContextAccessor httpContextAccessor)
     {
-        _usersService = usersService;
+        _authService = usersService;
         _httpContextAccessor = httpContextAccessor;
     }
 
-    [HttpPost("/register")]
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterUserRequest user)
     {
-        await _usersService.Register(user.Name, user.Email, user.Password);
+        await _authService.Register(user.Name, user.Email, user.Password);
 
         return Ok();
     }
 
-    [HttpPost("/login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserRequest user)
     {
-        var token = await _usersService.Login(user.Email, user.Password);
+        var token = await _authService.Login(user.Email, user.Password);
 
         var context = _httpContextAccessor.HttpContext;
         context?.Response.Cookies.Append("jwt-token", token);
@@ -40,9 +40,20 @@ public class UsersController : ControllerBase
         return Ok();
     }
 
+    [Authorize]
+    [HttpPost("logout")]
+    public IActionResult LogOut()
+    {
+        var context = _httpContextAccessor.HttpContext;
+        context?.Response.Cookies.Delete("jwt-token");
+
+        return Ok();
+    }
+
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<List<User>>> Get()
     {
-        return Ok(await _usersService.Get());
+        return Ok(await _authService.Get());
     }
 }

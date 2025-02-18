@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Trips.API.Contracts.Comments;
 using Trips.API.Contracts.Trips;
@@ -6,6 +7,7 @@ using Trips.Interfaces.Services;
 
 namespace Trips.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("/api/[controller]")]
 public class CommentsController : ControllerBase

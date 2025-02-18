@@ -2,7 +2,7 @@
 
 namespace Trips.Interfaces.Services;
 
-public interface IUsersService
+public interface IAuthService
 {
     Task<Guid> DeleteUserAsync(Guid id);
     Task<Guid> UpdateUserAsync(Guid id, string name, string email, string passwordHash);

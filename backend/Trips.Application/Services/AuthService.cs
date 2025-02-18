@@ -5,13 +5,13 @@ using Trips.Interfaces.Services;
 
 namespace Trips.Application.Services;
 
-public class UsersService : IUsersService
+public class AuthService : IAuthService
 {
     private readonly IUsersRepository _usersRepository;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtProvider _jwtProvider;
 
-    public UsersService(
+    public AuthService(
         IUsersRepository usersRepository,
         IPasswordHasher passwordHasher,
         IJwtProvider jwtProvider)

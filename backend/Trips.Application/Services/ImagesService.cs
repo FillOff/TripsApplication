@@ -7,7 +7,7 @@ namespace Trips.Application.Services;
 
 public class ImagesService : IImagesService
 {
-    private readonly string _storagePath = Path.Combine(Directory.GetCurrentDirectory(), "images");
+    private readonly string _storagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     private readonly IImagesRepository _imagesRepository;
@@ -30,8 +30,8 @@ public class ImagesService : IImagesService
         IFormFile file)
     {
         Guid id = Guid.NewGuid();
-        string contentType = file.ContentType;
-        string fileName = id.ToString() + "." + contentType.Split("/")[1];
+        string fileType = file.FileName.Split('.').Last();
+        string fileName = id.ToString() + "." + fileType;
         string filePath = Path.Combine(_storagePath, fileName);
 
         Directory.CreateDirectory(_storagePath);
@@ -44,11 +44,7 @@ public class ImagesService : IImagesService
         var request = _httpContextAccessor.HttpContext?.Request;
         string url = $"{request?.Scheme}://{request?.Host}/images/{fileName}";
 
-        return await _imagesRepository.Add(
-            id,
-            url,
-            filePath,
-            tripId);
+        return id;
     }
 
     public async Task<Guid> DeleteImageAsync(Guid id)

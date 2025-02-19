@@ -1,8 +1,6 @@
 using Microsoft.Extensions.FileProviders;
 using Trips.API.Extensions;
-using Trips.API.Middlewares;
 using Trips.API.Profiles;
-using Trips.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +16,6 @@ builder.Services.AddAutoMapper(
     typeof(ImageProfile));
 
 builder.Services.AddApiAuthentication(builder.Configuration);
-builder.Services.AddTransient<ExceptionMiddleware>();
-
 builder.Services.AddDbContexts();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
@@ -27,21 +23,17 @@ builder.Services.AddExternalServices();
 
 var app = builder.Build();
 
-app.UseMiddleware<ExceptionMiddleware>();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "images")),
-    RequestPath = "/images"
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "wwwroot/images")),
+    RequestPath = "/wwwroot/images"
 });
 
 app.UseAuthentication();

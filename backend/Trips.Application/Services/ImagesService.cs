@@ -44,7 +44,12 @@ public class ImagesService : IImagesService
         var request = _httpContextAccessor.HttpContext?.Request;
         string url = $"{request?.Scheme}://{request?.Host}/images/{fileName}";
 
-        return id;
+        return await _imagesRepository.Add(
+            id,
+            url,
+            filePath,
+            tripId
+        );
     }
 
     public async Task<Guid> DeleteImageAsync(Guid id)

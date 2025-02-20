@@ -11,14 +11,11 @@ namespace Trips.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public AuthController(
-        IAuthService usersService,
-        IHttpContextAccessor httpContextAccessor)
+        IAuthService usersService)
     {
         _authService = usersService;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost("register")]
@@ -34,20 +31,7 @@ public class AuthController : ControllerBase
     {
         var token = await _authService.Login(user.Email, user.Password);
 
-        var context = _httpContextAccessor.HttpContext;
-        context?.Response.Cookies.Append("jwt-token", token);
-
-        return Ok();
-    }
-
-    [Authorize]
-    [HttpPost("logout")]
-    public IActionResult LogOut()
-    {
-        var context = _httpContextAccessor.HttpContext;
-        context?.Response.Cookies.Delete("jwt-token");
-
-        return Ok();
+        return Ok(token);
     }
 
     [Authorize]

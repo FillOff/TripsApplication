@@ -1,24 +1,24 @@
-export const getTrips = async () => {
+export const getTrips = async (jwtToken) => {
     const response = await fetch("http://localhost:8080/api/Trips", {
-        mode: 'no-cors',
         method: "GET",
-        credentials: 'include'
+        headers: {
+            'Authorization': `Bearer ${jwtToken}`
+        },
     });
 
     const data = await response.json();
+    console.log(data);
     return data;
 }
 
 export const login = async () => {
-    const url = 'http://localhost:8080/api/auth/login'; // Замените на ваш URL API
+    const url = 'http://localhost:8080/api/auth/login';
 
-    // Данные для отправки
     const data = {
-        email: "123",
-        password: "123"
+        email: "qwe",
+        password: "qwe"
     };
 
-    // Настройки для fetch
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -26,4 +26,6 @@ export const login = async () => {
         },
         body: JSON.stringify(data),
     });
+
+    return await response.text();
 }

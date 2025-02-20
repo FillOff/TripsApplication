@@ -21,18 +21,13 @@ builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.AddExternalServices();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAllOrigins", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader() 
-              .AllowAnyMethod(); 
-    });
-});
-
-
 var app = builder.Build();
+
+app.UseCors(options => {
+    options.WithHeaders().AllowAnyHeader();
+    options.WithOrigins().AllowAnyOrigin();
+    options.WithMethods().AllowAnyMethod();
+});
 
 if (app.Environment.IsDevelopment())
 {
@@ -50,15 +45,6 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCookiePolicy(new CookiePolicyOptions
-{
-    MinimumSameSitePolicy = SameSiteMode.Strict,
-    HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always,
-    Secure = CookieSecurePolicy.Always
-});
-
 app.MapControllers();
-
-app.UseCors("AllowAllOrigins");
 
 app.Run();

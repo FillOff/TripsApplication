@@ -14,7 +14,7 @@ export default function TripsPage() {
                 console.log("Login successful:", loginResponse);
 
                 // Fetch trips after login
-                const tripsData = await getTrips();
+                const tripsData = await getTrips(loginResponse);
                 setTrips(tripsData); // Set the trips data in state
             } catch (error) {
                 console.error("Ошибка при аутентификации или получении поездок:", error);
@@ -30,7 +30,7 @@ export default function TripsPage() {
             <h1>Список поездок</h1>
             <ul>
                 {trips.map((trip, index) => (
-                    <li key={index}>{trip.name}</li> // Отображаем поездки
+                    <li key={index}>{trip.id}</li> // Отображаем поездки
                 ))}
             </ul>
         </div>

@@ -6,7 +6,7 @@ services:
     container_name: trips-backend
     build:
       context: ./backend
-      dockerfile: Trips.API/Dockerfile
+      dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:

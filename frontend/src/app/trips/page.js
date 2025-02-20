@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getTrips, login } from "../services/trips";
+import TripCard from "../components/tripcard";
 
 export default function TripsPage() {
     const [trips, setTrips] = useState([]);
@@ -9,30 +10,36 @@ export default function TripsPage() {
     useEffect(() => {
         const handleLoginAndFetchTrips = async () => {
             try {
-                // Call the exported login function
                 const loginResponse = await login();
                 console.log("Login successful:", loginResponse);
 
-                // Fetch trips after login
                 const tripsData = await getTrips(loginResponse);
-                setTrips(tripsData); // Set the trips data in state
+                setTrips(tripsData);
             } catch (error) {
                 console.error("Ошибка при аутентификации или получении поездок:", error);
             }
         };
 
-        handleLoginAndFetchTrips(); // Call the renamed function
+        handleLoginAndFetchTrips();
 
-    }, []); // Пустой массив зависимостей для выполнения только один раз
+    }, []); 
 
     return (
-        <div>
-            <h1>Список поездок</h1>
-            <ul>
-                {trips.map((trip, index) => (
-                    <li key={index}>{trip.id}</li> // Отображаем поездки
+        <>
+            <h1 className="text-3xl font-bold text-center my-5">Список поездок</h1>
+            <div className="flex">
+                {trips.map((trip) => (
+                    <TripCard 
+                        key={trip.id}
+                        id={trip.id}
+                        title={trip.name}
+                        description={trip.description}
+                        startDate={trip.startDateTime}
+                        endDate={trip.endDateTime}
+                        tripStatusNumber={trip.tripStatus}
+                    />
                 ))}
-            </ul>
-        </div>
+            </div>
+        </>
     );
 }

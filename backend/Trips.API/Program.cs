@@ -39,7 +39,7 @@ app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "wwwroot/images")),
-    RequestPath = "/wwwroot/images"
+    RequestPath = "/images"
 });
 
 app.UseAuthentication();

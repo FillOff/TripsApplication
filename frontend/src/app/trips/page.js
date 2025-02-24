@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import { getTrips } from "../services/trips";
 import TripCard from "../components/tripcard";
+import { useRouter } from "next/navigation";
 
 export default function TripsPage() {
     const [trips, setTrips] = useState([]);
+    const router = useRouter();
     
     const handleFetchTrips = async () => {
         try {
@@ -21,8 +23,16 @@ export default function TripsPage() {
     }, []); 
 
     return (
-        <>
+        <div className="w-full h-full px-5">
             <h1 className="text-3xl font-bold text-center my-5">Список поездок</h1>
+            <a 
+                className="bg-green-500 hover:bg-green-700 cursor-pointer text-white font-bold py-2 px-4 rounded ml-4"
+                onClick={() => {
+                    router.push("/trips/new");
+                }}
+            >
+                Создать новую поездку
+            </a>
             <div className="flex">
                 {trips.map((trip) => (
                     <TripCard 
@@ -36,6 +46,6 @@ export default function TripsPage() {
                     />
                 ))}
             </div>
-        </>
+        </div>
     );
 }

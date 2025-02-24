@@ -64,8 +64,8 @@ export default function TripIdPage() {
                         <span className="font-semibold">Duration:</span> {trip.route.duration}
                         </p>
                         <Map 
-                            startCity={trip.route.startPlace}
-                            endCity={trip.route.endPlace}
+                            startPlace={trip.route.startPlace}
+                            endPlace={trip.route.endPlace}
                         />
                     </div>
 

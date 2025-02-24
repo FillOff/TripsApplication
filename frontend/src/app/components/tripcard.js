@@ -4,7 +4,7 @@ import { tripStatus } from '../models/tripStatus';
 
 export default function TripCard ({ id, title, description, startDate, endDate, tripStatusNumber }) {
     const router = useRouter();
-    console.log(tripStatusNumber);
+
     return (
         <div className="w-80 rounded overflow-hidden border border-gray-700 bg-white m-4">
             <div className="px-6 py-4">

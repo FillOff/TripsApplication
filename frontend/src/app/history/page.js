@@ -1,15 +1,15 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { getTrips } from "../services/trips";
+import { getHistoryTrips } from "../services/trips";
 import TripCard from "../components/tripcard";
 
-export default function TripsPage() {
+export default function HistoryPage() {
     const [trips, setTrips] = useState([]);
     
-    const handleFetchTrips = async () => {
+    const handleFetchHistoryTrips = async () => {
         try {
-            const tripsData = await getTrips();
+            const tripsData = await getHistoryTrips();
             setTrips(tripsData);
         } catch (error) {
             console.error("Ошибка при аутентификации или получении поездок:", error);
@@ -17,12 +17,12 @@ export default function TripsPage() {
     };
 
     useEffect(() => {
-        handleFetchTrips();
+        handleFetchHistoryTrips();
     }, []); 
 
     return (
         <>
-            <h1 className="text-3xl font-bold text-center my-5">Список поездок</h1>
+            <h1 className="text-3xl font-bold text-center my-5">История поездок</h1>
             <div className="flex">
                 {trips.map((trip) => (
                     <TripCard 

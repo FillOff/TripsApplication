@@ -2,7 +2,6 @@
 using Trips.API.Contracts.Images;
 using Trips.API.Contracts.Routes;
 using Trips.Domain.Enums;
-using Trips.Domain.Models;
 
 namespace Trips.API.Contracts.Trips;
 

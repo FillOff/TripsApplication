@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using Trips.Domain.Enums;
+﻿using Trips.Domain.Enums;
 using Trips.Domain.Models;
 using Trips.Interfaces.Repositories;
 using Trips.Interfaces.Services;
@@ -19,6 +18,25 @@ public class TripsService : ITripsService
     public async Task<List<Trip>> GetTripsWithRouteWithImagesWithCommentsAsync()
     {
         return await _tripsRepository.GetWithRouteWithImagesWithComments();
+    }
+
+    public async Task<List<Trip>> GetHistoryTripsWithRouteWithImagesWithCommentsAsync()
+    {
+        var trips =  await _tripsRepository.GetWithRouteWithImagesWithComments();
+        trips = trips
+            .Where(t =>
+                t.TripStatus == TripStatus.Completed ||
+                t.TripStatus == TripStatus.Cancelled)
+            .ToList();
+
+        return trips;
+    }
+
+    public async Task<Trip?> GetTripWithRouteWithImagesWithCommentsAsync(Guid id)
+    {
+        var trip = await _tripsRepository.GetById(id);
+
+        return trip;
     }
 
     public async Task<Guid> CreateTripAsync(

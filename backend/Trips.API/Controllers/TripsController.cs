@@ -23,12 +23,30 @@ public class TripsController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet]
+    [HttpGet("trips")]
     public async Task<ActionResult<List<GetTripResponse>>> GetTripsWithRouteWithImagesWithComments()
     {
         var trips = await _tripsService.GetTripsWithRouteWithImagesWithCommentsAsync();
         var response = _mapper.Map<List<GetTripResponse>>(trips);
         
+        return Ok(response);
+    }
+
+    [HttpGet("history")]
+    public async Task<ActionResult<List<GetTripResponse>>> GetHistoryTrips()
+    {
+        var trips = await _tripsService.GetHistoryTripsWithRouteWithImagesWithCommentsAsync();
+        var response = _mapper.Map<List<GetTripResponse>>(trips);
+
+        return Ok(response);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<GetTripResponse>> GetTrip(Guid id)
+    {
+        var trip = await _tripsService.GetTripWithRouteWithImagesWithCommentsAsync(id);
+        var response = _mapper.Map<GetTripResponse>(trip);
+
         return Ok(response);
     }
 

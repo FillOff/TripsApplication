@@ -24,7 +24,13 @@ public class TripsRepository : ITripsRepository
 
     public async Task<Trip?> GetById(Guid id)
     {
-        var trip = await _context.Trips.FindAsync(id);
+        var trip = await _context.Trips
+            .AsNoTracking()
+            .Where(t => t.Id == id)
+            .Include(t => t.Route)
+            .Include(t => t.Images)
+            .Include(t => t.Comments)
+            .FirstOrDefaultAsync();
 
         return trip;
     }

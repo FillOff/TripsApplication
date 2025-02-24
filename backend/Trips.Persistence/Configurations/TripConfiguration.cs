@@ -29,9 +29,5 @@ public class TripConfiguration : IEntityTypeConfiguration<Trip>
             .HasMany(t => t.Images)
             .WithOne(i => i.Trip)
             .HasForeignKey(i => i.TripId);
-
-        builder
-            .Property(t => t.TripStatus)
-            .HasConversion<string>();
     }
 }

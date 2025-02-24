@@ -60,7 +60,7 @@ public class TripsRepository : ITripsRepository
         string description,
         DateTime startDateTime,
         DateTime endDateTime,
-        TimeSpan relativeDateTime,
+        long relativeDateTime,
         TripStatus tripStatus,
         Guid routeId,
         Guid userId)
@@ -101,7 +101,7 @@ public class TripsRepository : ITripsRepository
         string description,
         DateTime startDateTime,
         DateTime endDateTime,
-        TimeSpan relativeDateTime,
+        long relativeDateTime,
         TripStatus tripStatus)
     {
         await _context.Trips

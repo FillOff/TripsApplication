@@ -5,5 +5,4 @@ public record class GetRouteResponse(
     string StartPlace,
     string EndPlace,
     double Length,
-    TimeOnly Duration,
-    Guid TripId);
+    TimeOnly Duration);

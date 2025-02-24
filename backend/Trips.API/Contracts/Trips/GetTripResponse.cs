@@ -11,7 +11,7 @@ public record class GetTripResponse(
     string Description,
     DateTime StartDateTime,
     DateTime EndDateTime,
-    TimeSpan RelativeDateTime,
+    long RelativeDateTime,
     TripStatus TripStatus,
     Guid RouteId,
     GetRouteResponse? Route,

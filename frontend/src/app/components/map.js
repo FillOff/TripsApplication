@@ -9,7 +9,7 @@ import "leaflet-routing-machine";
 export default function Map({ startPlace, endPlace, setLength, setDuration }) {
     const mapRef = useRef(null);
     const mapInstance = useRef(null);
-    const routingControl = useRef(null); 
+    const routingControl = useRef(null);
 
     async function geocode(city) {
         try {
@@ -30,15 +30,14 @@ export default function Map({ startPlace, endPlace, setLength, setDuration }) {
 
     async function buildRoute(startPlace, endPlace) {
         if (!startPlace || !endPlace) return;
-
         try {
             const [startLat, startLon] = await geocode(startPlace);
             const [endLat, endLon] = await geocode(endPlace);
-
+            
             if (routingControl.current) {
                 mapInstance.current.removeControl(routingControl.current);
             }
-
+            
             routingControl.current = L.Routing.control({
                 waypoints: [
                     L.latLng(startLat, startLon),
@@ -55,7 +54,6 @@ export default function Map({ startPlace, endPlace, setLength, setDuration }) {
                 setLength((route.summary.totalDistance / 1000).toFixed(2));
                 setDuration(route.summary.totalTime);
             });
-
         } catch (error) {
             console.error("Ошибка построения маршрута:", error);
             alert(error.message);
@@ -73,14 +71,18 @@ export default function Map({ startPlace, endPlace, setLength, setDuration }) {
     }, []);
 
     useEffect(() => {
-        if (mapInstance.current && startPlace && endPlace) {
-            buildRoute(startPlace, endPlace);
-        }
+        const fetchAndBuildRoute = async () => {
+            if (mapInstance.current && startPlace && endPlace) {
+                await buildRoute(startPlace, endPlace);
+            }
+        };
+        
+        fetchAndBuildRoute();
     }, [startPlace, endPlace]);
 
     return (
         <div>
-            <div id="map" ref={mapRef} style={{ height: "500px", marginTop: "10px" }} />
+            <div id="map" ref={mapRef} className="h-[500px] mt-4 z-0" />
         </div>
     );
 }

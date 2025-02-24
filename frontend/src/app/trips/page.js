@@ -33,7 +33,7 @@ export default function TripsPage() {
             >
                 Создать новую поездку
             </a>
-            <div className="flex">
+            <div className="flex flex-wrap">
                 {trips.map((trip) => (
                     <TripCard 
                         key={trip.id}

@@ -8,7 +8,7 @@ public record class UpdateTripRequest(
     string Description,
     DateTime StartDateTime,
     DateTime EndDateTime,
-    TimeSpan RelativeDateTime,
+    long RelativeDateTime,
     TripStatus TripStatus,
     Guid RouteId,
     Guid UserId);

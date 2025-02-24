@@ -27,10 +27,3 @@ export const tripModel = {
       },
     ],
 };
-
-export const createTrip = {
-  name: "",
-  description: "",
-  startDateTime: null,
-  endDateTime: null,
-};

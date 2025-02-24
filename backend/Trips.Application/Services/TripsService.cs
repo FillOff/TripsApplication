@@ -47,10 +47,10 @@ public class TripsService : ITripsService
         Guid routeId, 
         Guid userId)
     {
-        TimeSpan relativeDateTime = DateTime.UtcNow - startDateTime;
+        long relativeDateTime = (long)(DateTime.UtcNow - startDateTime).TotalSeconds;
         TripStatus tripStatus = new TripStatus();
 
-        if (relativeDateTime > TimeSpan.Zero)
+        if (relativeDateTime > 0)
             tripStatus = TripStatus.Scheduled;
         else
             tripStatus = TripStatus.Started;
@@ -72,8 +72,8 @@ public class TripsService : ITripsService
         string name, 
         string description, 
         DateTime startDateTime, 
-        DateTime endDateTime, 
-        TimeSpan relativeDateTime, 
+        DateTime endDateTime,
+        long relativeDateTime, 
         TripStatus tripStatus)
     {
         return await _tripsRepository.Update(

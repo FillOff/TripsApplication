@@ -1,8 +1,8 @@
 'use client'
 
 import Map from '@/app/components/map';
-import { createTrip } from '@/app/models/trip';
 import { createRoute } from '@/app/services/route';
+import { createTrip } from '@/app/services/trips';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -10,12 +10,13 @@ export default function NewTripPage() {
     const router = useRouter();
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [startDateTime, setStartDateTime] = useState("");
+    const [startDateTime, setStartDateTime] = useState(Date);
     const [endDateTime, setEndDateTime] = useState("");
     const [startPlace, setStartPlace] = useState("");
     const [endPlace, setEndPlace] = useState("");
-    const [duration, setDuration] = useState("");
+    const [duration, setDuration] = useState(0);
     const [length, setLength] = useState(0);
+    const [isClicked, setisClicked] = useState(false);
 
     function formatTime(seconds) {
         if (isNaN(seconds) || seconds < 0) {
@@ -39,12 +40,15 @@ export default function NewTripPage() {
             <form 
                 onSubmit={async (e) => {
                     e.preventDefault();
+
+                    if (!isClicked) {
+                        alert('Маршрут не составлен!');
+                        return; 
+                    }
                     
-                    const routeId = await createRoute(startPlace, endPlace, duration, length);
-                    const tripId = await createTrip(name, description, startDateTime, endDateTime, routeId);
-
-                    await 
-
+                    const routeId = await createRoute(startPlace, endPlace, formatTime(duration), length);
+                    await createTrip(name, description, startDateTime, endDateTime, routeId); 
+                    
                     router.push("/trips");
                 }} 
                 className="mx-auto p-4 space-y-4"
@@ -97,6 +101,7 @@ export default function NewTripPage() {
                         onClick={() => {
                             setStartPlace(document.getElementById('startPlace').value);
                             setEndPlace(document.getElementById('endPlace').value);
+                            setisClicked(true);
                         }}
 
                         type='button'
@@ -117,7 +122,8 @@ export default function NewTripPage() {
                     type="datetime-local"
                     id="startDateTime"
                     onChange={(e) => {
-                        setStartDateTime(e.target.value);
+                        const utcDate = new Date(e.target.value + 'Z'); 
+                        setStartDateTime(utcDate.toISOString());
                     }}
                     className="w-full px-4 py-2 border border-gray-700 rounded-lg"
                     required
@@ -130,7 +136,8 @@ export default function NewTripPage() {
                     type="datetime-local"
                     id="endDateTime"
                     onChange={(e) => {
-                        setEndDateTime(e.target.value);
+                        const utcDate = new Date(e.target.value + 'Z'); 
+                        setEndDateTime(utcDate.toISOString());
                     }}
                     className="w-full px-4 py-2 border border-gray-700 rounded-lg"
                     required
@@ -139,8 +146,8 @@ export default function NewTripPage() {
 
                 <div>
                     <button
-                    type="submit"
-                    className="w-full py-2 px-4 bg-gray-700 text-white font-medium rounded-md focus:bg-gray-500"
+                        type="submit"
+                        className="w-full py-2 px-4 bg-gray-700 text-white font-medium rounded-md focus:bg-gray-500"
                     >
                         Создать
                     </button>

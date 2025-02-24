@@ -34,4 +34,17 @@ public class JwtProvider : IJwtProvider
 
         return tokenValue;
     }
+
+    public string? GetUserIdFromClaims(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+
+        var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "userId");
+
+        if (userIdClaim == null)
+            return null;
+
+        return userIdClaim.Value;
+    }
 }

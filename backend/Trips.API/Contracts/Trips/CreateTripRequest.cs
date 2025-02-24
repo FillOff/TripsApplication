@@ -5,5 +5,4 @@ public record class CreateTripRequest(
     string Description,
     DateTime StartDateTime,
     DateTime EndDateTime,
-    Guid RouteId,
-    Guid UserId);
+    Guid RouteId);

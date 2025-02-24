@@ -10,7 +10,7 @@ public class Trip
     public string Description { get; set; } = string.Empty;
     public DateTime StartDateTime { get; set; }
     public DateTime EndDateTime { get; set; }
-    public TimeSpan RelativeDateTime { get; set; }
+    public long RelativeDateTime { get; set; }
     public TripStatus TripStatus { get; set; }
 
     public Guid RouteId { get; set; }

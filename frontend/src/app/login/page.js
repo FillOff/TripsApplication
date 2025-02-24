@@ -11,7 +11,12 @@ export default function LoginPage() {
 
     async function saveToken() {
         const token = await login(email, password);
-        document.cookie = `jwt-token=${token};`;
+    
+        if (document.cookie.split(';').some((item) => item.trim().startsWith('jwt-token='))) {
+            document.cookie = 'jwt-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+        }
+    
+        document.cookie = `jwt-token=${token}; path=/`;
         router.push('/trips');
     }
     

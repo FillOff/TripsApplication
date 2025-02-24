@@ -45,6 +45,11 @@ export default function NewTripPage() {
                         alert('Маршрут не составлен!');
                         return; 
                     }
+
+                    if (startDateTime > endDateTime) {
+                        alert('Некорректная дата!');
+                        return;
+                    }
                     
                     const routeId = await createRoute(startPlace, endPlace, formatTime(duration), length);
                     await createTrip(name, description, startDateTime, endDateTime, routeId); 

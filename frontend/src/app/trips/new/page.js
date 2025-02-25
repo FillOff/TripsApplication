@@ -1,6 +1,6 @@
 'use client'
 
-import Map from '@/app/components/map';
+import Map, { geocode } from '@/app/components/map';
 import { createRoute } from '@/app/services/route';
 import { createTrip } from '@/app/services/trips';
 import { useRouter } from 'next/navigation';
@@ -34,7 +34,7 @@ export default function NewTripPage() {
                         alert('Некорректная дата!');
                         return;
                     }
-                    
+
                     const routeId = await createRoute(startPlace, endPlace, Math.floor(duration), length);
                     await createTrip(name, description, startDateTime, endDateTime, routeId); 
                     

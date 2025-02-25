@@ -6,27 +6,27 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import "leaflet-routing-machine";
 
+export async function geocode(city) {
+    try {
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?city=${city}&format=json&addressdetails=1&limit=1`
+        );
+        const data = await response.json();
+        if (data && data[0]) {
+            return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+        } else {
+            throw new Error(`Город "${city}" не найден.`);
+        }
+    } catch (error) {
+        console.error("Ошибка геокодирования:", error);
+        throw error;
+    }
+}
+
 export default function Map({ startPlace, endPlace, setLength, setDuration }) {
     const mapRef = useRef(null);
     const mapInstance = useRef(null);
     const routingControl = useRef(null);
-
-    async function geocode(city) {
-        try {
-            const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?city=${city}&format=json&addressdetails=1&limit=1`
-            );
-            const data = await response.json();
-            if (data && data[0]) {
-                return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-            } else {
-                throw new Error(`Город "${city}" не найден.`);
-            }
-        } catch (error) {
-            console.error("Ошибка геокодирования:", error);
-            throw error;
-        }
-    }
 
     async function buildRoute(startPlace, endPlace) {
         if (!startPlace || !endPlace) return;

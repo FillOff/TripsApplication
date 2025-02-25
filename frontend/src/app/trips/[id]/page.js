@@ -6,6 +6,7 @@ import { deleteTrip, getTrip, updateTrip } from "@/app/services/trips";
 import Map from "@/app/components/map";
 import StatusText from "@/app/components/status";
 import { tripModel } from "@/app/models/trip";
+import { createImage } from "@/app/services/image";
 
 export default function TripIdPage() {
     const router = useRouter();
@@ -13,6 +14,7 @@ export default function TripIdPage() {
     const [duration, setDuration] = useState(0);
     const [length, setLength] = useState(0);
     const id = useParams().id;
+    const [file, setFile] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
@@ -77,8 +79,7 @@ export default function TripIdPage() {
     function divImages() {
         if (trip && trip.images && trip.images.length > 0) { 
             return (
-                <div className="px-6">
-                    <h3 className="text-xl font-semibold text-gray-800">Картинки</h3>
+                <div>
                     <div className="flex overflow-x-auto gap-2 mt-2">
                         {trip.images.map((image) => 
                             image.url ? ( 
@@ -171,7 +172,34 @@ export default function TripIdPage() {
                         />
                     </div>
 
-                    {divImages()}
+                    <div className="px-6 my-5">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-3">Картинки</h3>
+                        <form>
+                            <input 
+                                type="file"
+                                className="w-full px-4 py-2 border border-gray-700 rounded-lg mb-5"
+                                onChange={(e) => {
+                                    setFile(e.target.files[0]);
+                                }}
+                            />
+                            <a 
+                                className="bg-green-500 hover:bg-green-700 cursor-pointer text-white font-bold py-2 px-4 rounded my-10"
+                                onClick={async (e) => {
+                                    if (!file) {
+                                        alert("Пожалуйста, выберите файл");
+                                        return;
+                                    }
+
+                                    await createImage(id, file);
+
+                                    window.location.reload();
+                                }}
+                                >
+                                Добавить картинку
+                            </a>
+                        </form>
+                        {divImages()}
+                    </div >
 
                     {divComments()}
 

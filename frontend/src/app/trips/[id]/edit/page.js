@@ -7,12 +7,12 @@ import Map from "@/app/components/map";
 import StatusText from "@/app/components/status";
 import { tripModel } from "@/app/models/trip";
 import { updateRoute } from "@/app/services/route";
+import { deleteImage } from "@/app/services/image";
 
 export default function EditTripPage() {
     const router = useRouter();
     const [trip, setTrip] = useState(tripModel); 
     const id = useParams().id;
-    const [selectedImage, setSelectedImage] = useState(null);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [startDateTime, setStartDateTime] = useState("");
@@ -21,6 +21,7 @@ export default function EditTripPage() {
     const [endPlace, setEndPlace] = useState("");
     const [duration, setDuration] = useState(0);
     const [length, setLength] = useState(0);
+    const [isClicked, setisClicked] = useState(false);
 
     useEffect(() => {
         handleFetchTrip();
@@ -51,7 +52,8 @@ export default function EditTripPage() {
         if (trip && trip.images && trip.images.length > 0) { 
             return (
                 <div className="px-6">
-                    <h3 className="text-xl font-semibold text-gray-800">Картинки</h3>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-3">Картинки</h3>
+                    <label htmlFor="startPlace" className="block text-sm font-medium text-red-700">Нажмите на картинку, чтобы удалить</label>
                     <div className="flex overflow-x-auto gap-2 mt-2">
                         {trip.images.map((image) => 
                             image.url ? ( 
@@ -60,23 +62,15 @@ export default function EditTripPage() {
                                     src={image.url}
                                     alt="Trip"
                                     className="w-28 h-28 object-cover rounded-lg cursor-pointer"
-                                    onClick={() => setSelectedImage(image.url)}
+                                    onClick={async () => {
+                                        await deleteImage(image.id);
+
+                                        window.location.reload();
+                                    }}
                                 />
                             ) : null
                         )}
                     </div>
-                    {selectedImage && (
-                        <div
-                            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[100]"
-                            onClick={() => setSelectedImage(null)}
-                        >
-                            <img
-                                src={selectedImage}
-                                alt="Fullscreen Trip"
-                                className="max-w-full max-h-full"
-                            />
-                        </div>
-                    )}
                 </div>
             );
         }
@@ -101,8 +95,8 @@ export default function EditTripPage() {
                     </div>
 
                     <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Описание поездки</label>
-                        <textarea
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Описание поездки</label>
+                    <textarea
                             id="description"
                             defaultValue={description}
                             onChange={(e) => {
@@ -138,12 +132,14 @@ export default function EditTripPage() {
                             onClick={() => {
                                 setStartPlace(document.getElementById('startPlace').value);
                                 setEndPlace(document.getElementById('endPlace').value);
+                                setisClicked(true);
                             }}
     
                             type='button'
                         >
                             Изменить маршрут
                         </button>
+                        <label className="block text-sm font-medium text-red-700">Для применения нового маршрута нужно "Изменить маршрут"</label>
                         <Map 
                             startPlace={startPlace}
                             endPlace={endPlace}
@@ -179,14 +175,13 @@ export default function EditTripPage() {
                         required
                         />
                     </div>
-
+                    
                     {divImages()}
 
                     <div className="my-5">
                         <a 
                             className="bg-yellow-500 hover:bg-yellow-700 cursor-pointer text-white font-bold py-2 px-4 rounded ml-4 my-5"
                             onClick={async () => {
-                                
                                 router.push(`/trips/${id}`);
                             }}
                             >
@@ -204,10 +199,7 @@ export default function EditTripPage() {
                         </a>
                     </div>
                 </form>
-
             </div>
-            
-            
         </>
     );
 }

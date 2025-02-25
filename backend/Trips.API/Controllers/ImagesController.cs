@@ -39,8 +39,8 @@ public class ImagesController : ControllerBase
         return Ok(id);
     }
 
-    [HttpDelete]
-    public async Task<ActionResult<Guid>> DeleteImage(Guid id)
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult<Guid>> DeleteImage([FromRoute] Guid id)
     {
         return await _imagesService.DeleteImageAsync(id);
     }

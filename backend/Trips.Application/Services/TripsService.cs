@@ -17,7 +17,15 @@ public class TripsService : ITripsService
 
     public async Task<List<Trip>> GetTripsWithRouteWithImagesWithCommentsAsync()
     {
-        return await _tripsRepository.GetWithRouteWithImagesWithComments();
+        var trips =  await _tripsRepository.GetWithRouteWithImagesWithComments();
+
+        trips = trips
+            .Where(t =>
+                t.TripStatus == TripStatus.Scheduled ||
+                t.TripStatus == TripStatus.Started)
+            .ToList();
+
+        return trips;
     }
 
     public async Task<List<Trip>> GetHistoryTripsWithRouteWithImagesWithCommentsAsync()
@@ -47,13 +55,15 @@ public class TripsService : ITripsService
         Guid routeId, 
         Guid userId)
     {
-        long relativeDateTime = (long)(DateTime.UtcNow - startDateTime).TotalSeconds;
+        long relativeDateTime = (long)(DateTime.UtcNow.AddHours(3) - startDateTime).TotalSeconds;
         TripStatus tripStatus = new TripStatus();
 
-        if (relativeDateTime > 0)
+        if (DateTime.UtcNow.AddHours(3) < startDateTime)
             tripStatus = TripStatus.Scheduled;
-        else
+        else if (DateTime.UtcNow.AddHours(3) >= startDateTime && DateTime.UtcNow.AddHours(3) <= endDateTime)
             tripStatus = TripStatus.Started;
+        else
+            tripStatus = TripStatus.Completed;
 
         return await _tripsRepository.Add(
             Guid.NewGuid(),

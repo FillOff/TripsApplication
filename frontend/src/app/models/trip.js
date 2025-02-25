@@ -4,6 +4,7 @@ export const tripModel = {
     description: "",
     startDateTime: null,
     endDateTime: null,
+    relativeDateTime: 0,
     tripStatus: "",
     route: {
       id: null,

@@ -10,7 +10,7 @@ export default function NewTripPage() {
     const router = useRouter();
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [startDateTime, setStartDateTime] = useState(Date);
+    const [startDateTime, setStartDateTime] = useState("");
     const [endDateTime, setEndDateTime] = useState("");
     const [startPlace, setStartPlace] = useState("");
     const [endPlace, setEndPlace] = useState("");
@@ -127,8 +127,7 @@ export default function NewTripPage() {
                     type="datetime-local"
                     id="startDateTime"
                     onChange={(e) => {
-                        const utcDate = new Date(e.target.value + 'Z'); 
-                        setStartDateTime(utcDate.toISOString());
+                        setStartDateTime(e.target.value);
                     }}
                     className="w-full px-4 py-2 border border-gray-700 rounded-lg"
                     required
@@ -141,8 +140,7 @@ export default function NewTripPage() {
                     type="datetime-local"
                     id="endDateTime"
                     onChange={(e) => {
-                        const utcDate = new Date(e.target.value + 'Z'); 
-                        setEndDateTime(utcDate.toISOString());
+                        setEndDateTime(e.target.value);
                     }}
                     className="w-full px-4 py-2 border border-gray-700 rounded-lg"
                     required

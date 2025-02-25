@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { getTrip } from "@/app/services/trips";
+import { useParams, useRouter } from "next/navigation";
+import { deleteTrip, getTrip, updateTrip } from "@/app/services/trips";
 import Map from "@/app/components/map";
 import StatusText from "@/app/components/status";
 import { tripModel } from "@/app/models/trip";
 
 export default function TripIdPage() {
+    const router = useRouter();
     const [trip, setTrip] = useState(tripModel); 
     const [duration, setDuration] = useState(0);
     const [length, setLength] = useState(0);
@@ -66,8 +67,19 @@ export default function TripIdPage() {
         }
     }
 
-    if (!trip) {
-        return <div>Загрузка...</div>;
+    function divComments() {
+        if (trip && trip.images && trip.comments.length > 0) {
+            return (
+                <div className="px-6 py-4">
+                    <h3 className="text-xl font-semibold text-gray-800">Comments</h3>
+                    {trip.comments.map((comment) => (
+                    <div key={comment.id} className="mt-2 p-2 bg-gray-100">
+                        <p className="text-gray-700">{comment.content}</p>
+                    </div>
+                    ))}
+                </div>
+            );
+        }
     }
 
     return (
@@ -119,16 +131,30 @@ export default function TripIdPage() {
 
                     {divImages()}
 
-                    <div className="px-6 py-4">
-                        <h3 className="text-xl font-semibold text-gray-800">Comments</h3>
-                        {trip.comments.map((comment) => (
-                        <div key={comment.id} className="mt-2 p-2 bg-gray-100">
-                            <p className="text-gray-700">{comment.content}</p>
-                        </div>
-                        ))}
-                    </div>
+                    {divComments()}
 
                 </div>
+
+            </div>
+            <div className="my-5">
+                <a 
+                    className="bg-yellow-500 hover:bg-yellow-700 cursor-pointer text-white font-bold py-2 px-4 rounded ml-4 my-5"
+                    onClick={async () => {
+                        await updateTrip(id, trip.name, trip.description, String(trip.startDateTime), String(trip.endDateTime), trip.relativeDateTime, 3);
+                        router.push("/trips");
+                    }}
+                    >
+                    Отменить поездку
+                </a>
+                <a 
+                    className="bg-red-500 hover:bg-red-700 cursor-pointer text-white font-bold py-2 px-4 rounded ml-4 my-5"
+                    onClick={async () => {
+                        await deleteTrip(id);
+                        router.push("/trips");
+                    }}
+                >
+                    Удалить поездку
+                </a>
             </div>
         </>
     );

@@ -9,6 +9,4 @@ public record class UpdateTripRequest(
     DateTime StartDateTime,
     DateTime EndDateTime,
     long RelativeDateTime,
-    TripStatus TripStatus,
-    Guid RouteId,
-    Guid UserId);
+    TripStatus TripStatus);

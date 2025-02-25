@@ -12,14 +12,14 @@ export default function TripCard ({ id, title, description, startDate, endDate, 
                     {title}
                 </a>
                 <p className="text-gray-700 text-base mb-4">
-                    {description}
+                    <b>Описание: </b>{description != "" ? description : "Отсутствует"}
                 </p>
                 <div className="text-gray-600 text-sm">
                     <p>
-                        Начало: {new Date(startDate).toLocaleString()}
+                        <b>Начало:</b> {new Date(startDate).toLocaleString()}
                     </p>
                     <p>
-                        Конец: {new Date(endDate).toLocaleString()}
+                        <b>Конец:</b> {new Date(endDate).toLocaleString()}
                     </p>
                     <StatusText
                         tripStatusNumber={tripStatusNumber}

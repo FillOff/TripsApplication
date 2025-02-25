@@ -22,7 +22,7 @@ public class RoutesService : IRoutesService
         string startPlace,
         string endPlace,
         double length,
-        TimeOnly duration)
+        long duration)
     {
         return await _routesRepository.Add(
             Guid.NewGuid(),
@@ -37,7 +37,7 @@ public class RoutesService : IRoutesService
         string startPlace,
         string endPlace,
         double length,
-        TimeOnly duration)
+        long duration)
     {
         return await _routesRepository.Update(
             id,

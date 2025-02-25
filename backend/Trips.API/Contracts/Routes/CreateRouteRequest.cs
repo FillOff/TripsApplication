@@ -4,4 +4,4 @@ public record class CreateRouteRequest(
     string StartPlace,
     string EndPlace,
     double Length,
-    TimeOnly Duration);
+    long Duration);

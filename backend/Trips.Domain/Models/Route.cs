@@ -8,7 +8,7 @@ public class Route
     public string StartPlace { get; set; } = string.Empty;
     public string EndPlace { get; set; } = string.Empty;
     public double Length { get; set; }
-    public TimeOnly Duration { get; set; }
+    public long Duration { get; set; }
 
     [JsonIgnore]
     public Trip? Trip { get; set; }

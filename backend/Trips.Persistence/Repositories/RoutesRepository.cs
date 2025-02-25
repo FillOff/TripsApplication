@@ -33,7 +33,7 @@ public class RoutesRepository : IRoutesRepository
         string startPlace,
         string endPlace,
         double length,
-        TimeOnly duration)
+        long duration)
     {
         var route = new Route
         {
@@ -66,7 +66,7 @@ public class RoutesRepository : IRoutesRepository
         string startPlace,
         string endPlace,
         double length,
-        TimeOnly duration)
+        long duration)
     {
         await _context.Routes
             .Where(r => r.Id == id)

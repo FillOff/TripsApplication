@@ -94,11 +94,13 @@ public class TripsController : ControllerBase
         return Ok(id);
     }
 
-    [HttpPut]
-    public async Task<ActionResult<Guid>> UpdateTrip([FromBody] UpdateTripRequest trip)
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult<Guid>> UpdateTrip(
+        [FromRoute] Guid id,
+        [FromBody] UpdateTripRequest trip)
     {
-        Guid id = await _tripsService.UpdateTripAsync(
-            trip.Id,
+        id = await _tripsService.UpdateTripAsync(
+            id,
             trip.Name,
             trip.Description,
             trip.StartDateTime,
@@ -109,8 +111,8 @@ public class TripsController : ControllerBase
         return Ok(id);
     }
 
-    [HttpDelete]
-    public async Task<ActionResult<Guid>> DeleteTrip(Guid id)
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult<Guid>> DeleteTrip([FromRoute] Guid id)
     {
         var trip = await _tripsService.GetTripWithRouteWithImagesWithCommentsAsync(id);
         

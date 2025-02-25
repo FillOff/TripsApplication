@@ -11,7 +11,7 @@ export const tripModel = {
       startPlace: "",
       endPlace: "",
       length: null,
-      duration: null,
+      duration: 0,
     },
     comments: [
       {

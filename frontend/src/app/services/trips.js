@@ -63,7 +63,7 @@ export const createTrip = async (name, description, startDateTime, endDateTime, 
 export const deleteTrip = async (id) => {
     const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
 
-    const response = await fetch(`http://localhost:8080/api/Trips?id=${id}`, {
+    const response = await fetch(`http://localhost:8080/api/Trips/${id}`, {
         method: "DELETE",
         headers: {
             'Authorization': `Bearer ${jwtToken}`,
@@ -75,8 +75,15 @@ export const deleteTrip = async (id) => {
 
 export const updateTrip = async (id, name, description, startDateTime, endDateTime, relativeDateTime, tripStatus) => {
     const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+    
+    if (new Date() < new Date(startDateTime))
+        tripStatus = 0;
+    else if (new Date() >= new Date(startDateTime) && new Date() <= new Date(endDateTime))
+        tripStatus = 1;
+    else
+        tripStatus = 2;
+
     const data = {
-        id: id,
         name: name,
         description: description,
         startDateTime: startDateTime,
@@ -85,8 +92,7 @@ export const updateTrip = async (id, name, description, startDateTime, endDateTi
         tripStatus: tripStatus,
     }
 
-    console.log(JSON.stringify(data));
-    const response = await fetch(`http://localhost:8080/api/Trips`, {
+    const response = await fetch(`http://localhost:8080/api/Trips/${id}`, {
         method: "PUT",
         headers: {
             'Authorization': `Bearer ${jwtToken}`,

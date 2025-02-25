@@ -43,11 +43,13 @@ public class RoutesController : ControllerBase
         return Ok(id);
     }
 
-    [HttpPut]
-    public async Task<ActionResult<Guid>> UpdateRoute([FromBody] UpdateRouteRequest route)
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult<Guid>> UpdateRoute(
+        [FromRoute] Guid id,
+        [FromBody] UpdateRouteRequest route)
     {
-        Guid id = await _routesService.UpdateRouteAsync(
-            route.Id,
+        id = await _routesService.UpdateRouteAsync(
+            id,
             route.StartPlace,
             route.EndPlace,
             route.Length,
@@ -56,8 +58,8 @@ public class RoutesController : ControllerBase
         return Ok(id);
     }
 
-    [HttpDelete]
-    public async Task<ActionResult<Guid>> DeleteRoute(Guid id)
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult<Guid>> DeleteRoute([FromRoute] Guid id)
     {
         return Ok(await _routesService.DeleteRouteAsync(id));
     }

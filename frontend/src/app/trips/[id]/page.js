@@ -32,6 +32,48 @@ export default function TripIdPage() {
         }
     };
 
+    function formatTime(seconds) {
+        if (isNaN(seconds) || seconds < 0) {
+            return "00:00:00"; 
+        }
+    
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = Math.floor(seconds % 60);
+    
+        const formattedHours = String(hours).padStart(2, '0');
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        const formattedSeconds = String(secs).padStart(2, '0');
+    
+        return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    }
+
+    const showButtons = () => {
+        if (trip.tripStatus != 3 & trip.tripStatus != 2) {
+            return (
+                <>
+                    <a 
+                        className="bg-yellow-500 hover:bg-yellow-700 cursor-pointer text-white font-bold py-2 px-4 rounded ml-4 my-5"
+                        onClick={async () => {
+                            await updateTrip(id, trip.name, trip.description, String(trip.startDateTime), String(trip.endDateTime), trip.relativeDateTime, 3);
+                            router.push("/trips");
+                        }}
+                        >
+                        Отменить поездку
+                    </a>
+                    <a
+                        className="bg-blue-500 hover:bg-blue-700 cursor-pointer text-white font-bold py-2 px-4 rounded ml-4 my-5"
+                        onClick={async () => {
+                            router.push(`/trips/${id}/edit`);
+                        }}
+                    >
+                        Редактировать поездку
+                    </a>
+                </>
+            );
+        }
+    }
+
     function divImages() {
         if (trip && trip.images && trip.images.length > 0) { 
             return (
@@ -119,7 +161,7 @@ export default function TripIdPage() {
                         </p>
                         <p className="text-gray-700">
                             <b>Длительность: </b>
-                            {trip.route.duration}
+                            {formatTime(trip.route.duration)}
                         </p>
                         <Map 
                             startPlace={trip.route.startPlace}
@@ -136,16 +178,9 @@ export default function TripIdPage() {
                 </div>
 
             </div>
+            
             <div className="my-5">
-                <a 
-                    className="bg-yellow-500 hover:bg-yellow-700 cursor-pointer text-white font-bold py-2 px-4 rounded ml-4 my-5"
-                    onClick={async () => {
-                        await updateTrip(id, trip.name, trip.description, String(trip.startDateTime), String(trip.endDateTime), trip.relativeDateTime, 3);
-                        router.push("/trips");
-                    }}
-                    >
-                    Отменить поездку
-                </a>
+                {showButtons()}
                 <a 
                     className="bg-red-500 hover:bg-red-700 cursor-pointer text-white font-bold py-2 px-4 rounded ml-4 my-5"
                     onClick={async () => {

@@ -18,22 +18,6 @@ export default function NewTripPage() {
     const [length, setLength] = useState(0);
     const [isClicked, setisClicked] = useState(false);
 
-    function formatTime(seconds) {
-        if (isNaN(seconds) || seconds < 0) {
-            return "00:00:00"; 
-        }
-    
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const secs = Math.floor(seconds % 60);
-    
-        const formattedHours = String(hours).padStart(2, '0');
-        const formattedMinutes = String(minutes).padStart(2, '0');
-        const formattedSeconds = String(secs).padStart(2, '0');
-    
-        return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-    }
-
     return (
         <div className="w-full h-full px-5">
             <h1 className="text-3xl font-bold text-center my-5">Новая поездка</h1>
@@ -51,7 +35,7 @@ export default function NewTripPage() {
                         return;
                     }
                     
-                    const routeId = await createRoute(startPlace, endPlace, formatTime(duration), length);
+                    const routeId = await createRoute(startPlace, endPlace, Math.floor(duration), length);
                     await createTrip(name, description, startDateTime, endDateTime, routeId); 
                     
                     router.push("/trips");

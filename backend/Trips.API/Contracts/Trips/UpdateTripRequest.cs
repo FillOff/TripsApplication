@@ -3,7 +3,6 @@
 namespace Trips.API.Contracts.Trips;
 
 public record class UpdateTripRequest(
-    Guid Id,
     string Name,
     string Description,
     DateTime StartDateTime,

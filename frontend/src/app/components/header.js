@@ -2,8 +2,38 @@
 
 import { useRouter } from "next/navigation"
 
-export default function Header() {
+export default function Header( { isAuth } ) {
     const router = useRouter();
+
+    function authButtons() {
+        if (isAuth) {
+            return (
+                <div className="flex h-full mr-0 ml-auto">
+                    <button 
+                        className="cursor-default hover:bg-gray-500 text-whit px-4 h-full text-base"
+                        onClick={ () => {
+                            router.push('/login');
+                            document.cookie = 'jwt-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                        }}
+                    >
+                        Выйти
+                    </button>
+                </div>
+            );
+        }        
+        else {
+            return(
+                <div className="flex h-full mr-0 ml-auto">
+                    <button onClick={ () => router.push('/register') } className="cursor-default hover:bg-gray-500 text-whit px-4 h-full text-base">
+                        Регистрация
+                    </button>
+                    <button onClick={ () => router.push('/login') } className="cursor-default hover:bg-gray-500 text-white px-4 h-full text-base">
+                        Логин
+                    </button>
+                </div>
+            );
+        }
+    }
 
     return (
         <header className="bg-gray-700 text-white h-14">
@@ -17,14 +47,7 @@ export default function Header() {
                     </a>
                 </div>
                 
-                <div className="flex h-full mr-0 ml-auto">
-                    <button onClick={ () => router.push('/register') } className="cursor-default hover:bg-gray-500 text-whit px-4 h-full text-base">
-                        Регистрация
-                    </button>
-                    <button onClick={ () => router.push('/login') } className="cursor-default hover:bg-gray-500 text-white px-4 h-full text-base">
-                        Логин
-                    </button>
-                </div>
+                {authButtons()}
             </div>
         </header>
     );

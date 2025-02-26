@@ -1,10 +1,11 @@
-export const createImage = async (id, file) => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+import { getJwtToken } from "./jwtProvider";
+
+export async function createImage(id, file) {
+    const jwtToken = getJwtToken();
     const formData = new FormData();
     formData.append("tripId", id);
     formData.append("file", file);
 
-    console.log(formData);
     const response = await fetch('http://localhost:8080/api/Images', {
         method: 'POST',
         headers: {
@@ -16,8 +17,8 @@ export const createImage = async (id, file) => {
     return await response.text();
 }
 
-export const deleteImage = async (id) => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+export async function deleteImage(id) {
+    const jwtToken = getJwtToken();
 
     const response = await fetch(`http://localhost:8080/api/Images/${id}`, {
         method: 'DELETE',

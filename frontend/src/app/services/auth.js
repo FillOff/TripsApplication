@@ -1,4 +1,6 @@
-export const login = async (email, password) => {
+import { getJwtToken } from "./jwtProvider";
+
+export async function login(email, password) {
     const data = {
         email: email,
         password: password
@@ -15,7 +17,7 @@ export const login = async (email, password) => {
     return await response.text();
 }
 
-export const register = async (name, email, password) => {
+export async function register(name, email, password) {
     const data = {
         name: name,
         email: email,
@@ -29,4 +31,17 @@ export const register = async (name, email, password) => {
         },
         body: JSON.stringify(data),
     });
+}
+
+export async function check() {
+    const jwtToken = getJwtToken();
+
+    const response = await fetch('http://localhost:8080/api/auth/me', {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${jwtToken}`,
+        }
+    });
+
+    return response;
 }

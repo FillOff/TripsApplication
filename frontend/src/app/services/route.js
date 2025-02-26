@@ -1,5 +1,7 @@
-export const createRoute = async (startPlace, endPlace, duration, length) => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+import { getJwtToken } from "./jwtProvider";
+
+export async function createRoute(startPlace, endPlace, duration, length) {
+    const jwtToken = getJwtToken();
     const data = {
         startPlace: startPlace,
         endPlace: endPlace,
@@ -20,8 +22,8 @@ export const createRoute = async (startPlace, endPlace, duration, length) => {
     return routeId;
 }
 
-export const updateRoute = async (id, startPlace, endPlace, duration, length) => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+export async function updateRoute(id, startPlace, endPlace, duration, length) {
+    const jwtToken = getJwtToken();
     const data = {
         startPlace: startPlace,
         endPlace: endPlace,
@@ -29,7 +31,6 @@ export const updateRoute = async (id, startPlace, endPlace, duration, length) =>
         duration: duration
     };
 
-    console.log(JSON.stringify(data));
     const response = await fetch(`http://localhost:8080/api/Routes/${id}`, {
         method: "PUT",
         headers: {

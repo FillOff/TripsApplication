@@ -1,5 +1,7 @@
-export const getTrips = async () => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+import { getJwtToken } from "./jwtProvider";
+
+export async function getTrips() {
+    const jwtToken = getJwtToken();
     
     const response = await fetch("http://localhost:8080/api/Trips", {
         method: "GET",
@@ -12,8 +14,8 @@ export const getTrips = async () => {
     return data;
 }
 
-export const getHistoryTrips = async () => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+export async function getHistoryTrips() {
+    const jwtToken = getJwtToken();
     
     const response = await fetch("http://localhost:8080/api/Trips/history", {
         method: "GET",
@@ -26,8 +28,8 @@ export const getHistoryTrips = async () => {
     return data;
 }
 
-export const getTrip = async (id) => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+export async function getTrip(id) {
+    const jwtToken = getJwtToken();
     
     const response = await fetch(`http://localhost:8080/api/Trips/${id}`, {
         method: "GET",
@@ -40,8 +42,8 @@ export const getTrip = async (id) => {
     return data;
 }
 
-export const createTrip = async (name, description, startDateTime, endDateTime, routeId) => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+export async function createTrip(name, description, startDateTime, endDateTime, routeId) {
+    const jwtToken = getJwtToken();
     const data = {
         name: name,
         description: description,
@@ -60,8 +62,8 @@ export const createTrip = async (name, description, startDateTime, endDateTime, 
     });
 }
 
-export const deleteTrip = async (id) => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+export async function deleteTrip(id) {
+    const jwtToken = getJwtToken();
 
     const response = await fetch(`http://localhost:8080/api/Trips/${id}`, {
         method: "DELETE",
@@ -73,8 +75,8 @@ export const deleteTrip = async (id) => {
     return await response.json();
 }
 
-export const updateTrip = async (id, name, description, startDateTime, endDateTime, relativeDateTime, tripStatus) => {
-    const jwtToken = document.cookie.split('; ').find(c => c.startsWith('jwt-token=')).split('=')[1];
+export async function updateTrip(id, name, description, startDateTime, endDateTime, relativeDateTime, tripStatus) {
+    const jwtToken = getJwtToken();
     
     if (new Date() < new Date(startDateTime))
         tripStatus = 0;

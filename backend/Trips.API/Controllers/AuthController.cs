@@ -40,4 +40,11 @@ public class AuthController : ControllerBase
     {
         return Ok(await _authService.Get());
     }
+
+    [Authorize]
+    [HttpGet("me")]
+    public IActionResult GetMe()
+    {
+        return Ok();
+    }
 }

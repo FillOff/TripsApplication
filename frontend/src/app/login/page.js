@@ -11,15 +11,17 @@ export default function LoginPage() {
 
     async function saveToken() {
         const token = await login(email, password);
-    
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + 30);
+
         if (document.cookie.split(';').some((item) => item.trim().startsWith('jwt-token='))) {
             document.cookie = 'jwt-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
         }
     
-        document.cookie = `jwt-token=${token}; path=/`;
+        document.cookie = `jwt-token=${token}; expires=${currentDate.toUTCString()}; path=/; SameSite=Strict`;
         router.push('/trips');
     }
-    
+
     return (
         <div className="h-screen flex items-center justify-center w-full">
             <div className="max-w-md w-full bg-white border border-gray-700 rounded-lg p-8">

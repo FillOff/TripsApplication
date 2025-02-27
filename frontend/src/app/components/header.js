@@ -39,6 +39,9 @@ export default function Header( { isAuth } ) {
         <header className="bg-gray-700 text-white h-14">
             <div className="w-full h-full flex">
                 <div className="flex h-full">
+                    <a onClick={ () => router.push('/') } className="cursor-default hover:bg-gray-500 text-white px-4 h-full text-base flex items-center">
+                        Все поездки
+                    </a>
                     <a onClick={ () => router.push('/trips') } className="cursor-default hover:bg-gray-500 text-white px-4 h-full text-base flex items-center">
                         Мои поездки
                     </a>

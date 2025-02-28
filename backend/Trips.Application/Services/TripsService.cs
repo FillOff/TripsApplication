@@ -15,7 +15,7 @@ public class TripsService : ITripsService
         _tripsRepository = tripsRepository;
     }
 
-    public async Task<List<Trip>> GetTripsWithRouteWithImagesWithCommentsAsync()
+    public async Task<List<Trip>> GetTripsWithRouteWithImagesWithCommentsAsync(Guid id)
     {
         var trips =  await _tripsRepository.GetWithRouteWithImagesWithComments();
 
@@ -23,19 +23,30 @@ public class TripsService : ITripsService
             .Where(t =>
                 t.TripStatus == TripStatus.Scheduled ||
                 t.TripStatus == TripStatus.Started)
+            .Where(t => 
+                t.UserId == id)
             .ToList();
 
         return trips;
     }
 
-    public async Task<List<Trip>> GetHistoryTripsWithRouteWithImagesWithCommentsAsync()
+    public async Task<List<Trip>> GetHistoryTripsWithRouteWithImagesWithCommentsAsync(Guid id)
     {
         var trips =  await _tripsRepository.GetWithRouteWithImagesWithComments();
         trips = trips
             .Where(t =>
                 t.TripStatus == TripStatus.Completed ||
                 t.TripStatus == TripStatus.Cancelled)
+            .Where(t =>
+                t.UserId == id)
             .ToList();
+
+        return trips;
+    }
+
+    public async Task<List<Trip>> GetTripsWithUsersWithRouteAsync()
+    {
+        var trips = await _tripsRepository.GetWithUserWithRoute();
 
         return trips;
     }

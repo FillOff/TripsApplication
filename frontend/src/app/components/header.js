@@ -30,6 +30,15 @@ export default function Header( { isAuth } ) {
                     <button onClick={ () => router.push('/login') } className="cursor-default hover:bg-gray-500 text-white px-4 h-full text-base">
                         Логин
                     </button>
+                    <button 
+                        className="cursor-default hover:bg-gray-500 text-whit px-4 h-full text-base"
+                        onClick={ () => {
+                            router.push('/login');
+                            document.cookie = 'jwt-token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                        }}
+                    >
+                        Выйти
+                    </button>
                 </div>
             );
         }

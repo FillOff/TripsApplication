@@ -42,16 +42,32 @@ public class TripsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<GetTripResponse>>> GetTripsWithRouteWithImagesWithComments()
     {
-        var trips = await _tripsService.GetTripsWithRouteWithImagesWithCommentsAsync();
+        var httpContext = _contextAccessor.HttpContext;
+        var token = _jwtProvider.GetToken(httpContext!);
+        string? userIdString = _jwtProvider.GetUserIdFromClaims(token);
+
+        if (userIdString == null)
+            return Unauthorized();
+
+        Guid userId = Guid.Parse(userIdString);
+        var trips = await _tripsService.GetTripsWithRouteWithImagesWithCommentsAsync(userId);
         var response = _mapper.Map<List<GetTripResponse>>(trips);
-        
+
         return Ok(response);
     }
 
     [HttpGet("history")]
     public async Task<ActionResult<List<GetTripResponse>>> GetHistoryTrips()
     {
-        var trips = await _tripsService.GetHistoryTripsWithRouteWithImagesWithCommentsAsync();
+        var httpContext = _contextAccessor.HttpContext;
+        var token = _jwtProvider.GetToken(httpContext!);
+        string? userIdString = _jwtProvider.GetUserIdFromClaims(token);
+
+        if (userIdString == null)
+            return Unauthorized();
+
+        Guid userId = Guid.Parse(userIdString);
+        var trips = await _tripsService.GetHistoryTripsWithRouteWithImagesWithCommentsAsync(userId);
         var response = _mapper.Map<List<GetTripResponse>>(trips);
 
         return Ok(response);
@@ -70,26 +86,20 @@ public class TripsController : ControllerBase
     public async Task<ActionResult<Guid>> CreateTrip([FromBody] CreateTripRequest trip)
     {
         var httpContext = _contextAccessor.HttpContext;
-        var authHeader = httpContext?.Request.Headers["Authorization"].ToString();
-        if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
-        {
-            return Unauthorized();
-        }
-
-        var token = authHeader.Substring("Bearer ".Length).Trim();
-
+        var token = _jwtProvider.GetToken(httpContext!);
         string? userIdString = _jwtProvider.GetUserIdFromClaims(token);
 
-        if (userIdString == null) 
+        if (userIdString == null)
             return Unauthorized();
 
+        Guid userId = Guid.Parse(userIdString);
         Guid id = await _tripsService.CreateTripAsync(
             trip.Name,
             trip.Description,
             trip.StartDateTime,
             trip.EndDateTime,
             trip.RouteId,
-            Guid.Parse(userIdString));
+            userId);
 
         return Ok(id);
     }
@@ -115,16 +125,25 @@ public class TripsController : ControllerBase
     public async Task<ActionResult<Guid>> DeleteTrip([FromRoute] Guid id)
     {
         var trip = await _tripsService.GetTripWithRouteWithImagesWithCommentsAsync(id);
-        
-        if (trip == null) 
+
+        if (trip == null)
             return NotFound();
 
         await _routesService.DeleteRouteAsync(trip.RouteId);
-        trip.Comments.ForEach(async c => 
+        trip.Comments.ForEach(async c =>
             await _commentsService.DeleteCommentAsync(c.Id));
         trip.Images.ForEach(async i =>
             await _imagesService.DeleteImageAsync(i.Id));
 
         return Ok(await _tripsService.DeleteTripAsync(id));
+    }
+
+    [HttpGet("all")]
+    public async Task<ActionResult<List<GetAllTripsResponse>>> GetAllTrips()
+    {
+        var trips = await _tripsService.GetTripsWithUsersWithRouteAsync();
+        var response = _mapper.Map<List<GetAllTripsResponse>>(trips);
+
+        return Ok(response);
     }
 }

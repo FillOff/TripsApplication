@@ -9,5 +9,7 @@ public class TripProfile : Profile
     public TripProfile()
     {
         CreateMap<Trip, GetTripResponse>();
+
+        CreateMap<Trip, GetAllTripsResponse>();
     }
 }

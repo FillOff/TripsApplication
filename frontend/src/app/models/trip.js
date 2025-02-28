@@ -28,3 +28,20 @@ export const tripModel = {
       },
     ],
 };
+
+export const allTripModel = {
+  id: "",
+  name: "",
+  description: "",
+  route: {
+    id: null,
+    startPlace: "",
+    endPlace: "",
+    length: null,
+    duration: 0,
+  },
+  user: {
+    id: null,
+    name: ""
+  }
+};

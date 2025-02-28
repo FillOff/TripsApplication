@@ -42,6 +42,20 @@ export async function getTrip(id) {
     return data;
 }
 
+export async function getAllTrips() {
+    const jwtToken = getJwtToken();
+    
+    const response = await fetch(`http://localhost:8080/api/Trips/all`, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${jwtToken}`
+        },
+    });
+
+    const data = await response.json();
+    return data;
+}
+
 export async function createTrip(name, description, startDateTime, endDateTime, routeId) {
     const jwtToken = getJwtToken();
     const data = {

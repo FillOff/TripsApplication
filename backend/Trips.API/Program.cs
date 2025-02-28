@@ -13,7 +13,8 @@ builder.Services.AddAutoMapper(
     typeof(TripProfile), 
     typeof(RouteProfile), 
     typeof(CommentProfile),
-    typeof(ImageProfile));
+    typeof(ImageProfile),
+    typeof(UserProfile));
 
 builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.AddDbContexts();

@@ -11,5 +11,6 @@ public interface ITripsRepository
     Task<Trip?> GetById(Guid id);
     Task<List<Trip>> GetWithRouteWithImages();
     Task<List<Trip>> GetWithRouteWithImagesWithComments();
+    Task<List<Trip>> GetWithUserWithRoute();
     Task<Guid> Update(Guid id, string name, string description, DateTime startDateTime, DateTime endDateTime, long relativeDateTime, TripStatus tripStatus);
 }

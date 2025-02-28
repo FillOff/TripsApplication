@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -28,8 +29,7 @@ public class JwtProvider : IJwtProvider
         var token = new JwtSecurityToken(
             claims: claims,
             signingCredentials: signingCredentials,
-            //expires: DateTime.UtcNow.AddDays(_options.ExpiresDays));
-            expires: DateTime.UtcNow.AddMinutes(1)
+            expires: DateTime.UtcNow.AddDays(_options.ExpiresDays)
         );
 
         var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
@@ -48,5 +48,18 @@ public class JwtProvider : IJwtProvider
             return null;
 
         return userIdClaim.Value;
+    }
+
+    public string GetToken(HttpContext httpContext)
+    {
+        var authHeader = httpContext?.Request.Headers["Authorization"].ToString();
+        if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+        {
+            throw new Exception("User unauthorized");
+        }
+
+        var token = authHeader.Substring("Bearer ".Length).Trim();
+
+        return token;
     }
 }

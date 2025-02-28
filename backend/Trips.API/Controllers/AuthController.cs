@@ -35,13 +35,6 @@ public class AuthController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet]
-    public async Task<ActionResult<List<User>>> Get()
-    {
-        return Ok(await _authService.Get());
-    }
-
-    [Authorize]
     [HttpGet("me")]
     public IActionResult GetMe()
     {

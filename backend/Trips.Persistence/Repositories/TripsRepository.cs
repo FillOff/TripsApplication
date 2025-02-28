@@ -54,6 +54,15 @@ public class TripsRepository : ITripsRepository
             .ToListAsync();
     }
 
+    public async Task<List<Trip>> GetWithUserWithRoute()
+    {
+        return await _context.Trips
+            .AsNoTracking()
+            .Include(t => t.Route)
+            .Include(t => t.User)
+            .ToListAsync();
+    }
+
     public async Task<Guid> Add(
         Guid id,
         string name,
